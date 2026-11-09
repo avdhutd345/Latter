@@ -1,0 +1,948 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ek Chotasa Surprise 🌸</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Quicksand', sans-serif;
+    color: #87516c;
+    background: linear-gradient(135deg,#fff0f5,#fce1ec,#fff8e9);
+    transition: background 1.5s;
+}
+
+body.night {
+    background: linear-gradient(135deg,#10172f,#282c52,#55405f);
+    color: #fff0f7;
+}
+
+.container {
+    min-height: 100vh;
+    max-width: 750px;
+    margin: auto;
+    padding: 30px 20px 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.top {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #d27c9e;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+h1 {
+    font-family: 'Playfair Display',serif;
+    font-size: clamp(38px,8vw,57px);
+    color: #b84c79;
+    margin-top: 15px;
+}
+
+.night h1 { color: #ffc4df; }
+
+.subtitle {
+    font-size: 14px;
+    margin-top: 12px;
+    line-height: 1.9;
+}
+
+.garden {
+    height: 350px;
+    width: 100%;
+    max-width: 550px;
+    position: relative;
+    margin: 15px auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.moon {
+    position: absolute;
+    width: 62px;
+    height: 62px;
+    top: 25px;
+    right: 16%;
+    border-radius: 50%;
+    background: #ffe6a3;
+    box-shadow: 0 0 45px #ffe6a399;
+    animation: moonGlow 3s infinite alternate;
+}
+
+.night .moon {
+    background: #fff2c6;
+}
+
+.ground {
+    position: absolute;
+    bottom: 10px;
+    width: 90%;
+    height: 38px;
+    border-radius: 50%;
+    background: #a6cf96;
+}
+
+.night .ground { background: #42605a; }
+
+/* MAIN FLOWER */
+
+.flower {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    width: 170px;
+    height: 280px;
+    transform: translateX(-50%);
+    transform-origin: bottom center;
+    animation: sway 3s ease-in-out infinite alternate;
+    cursor: pointer;
+    z-index: 4;
+}
+
+.head {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: 0;
+    left: 10px;
+}
+
+.petal {
+    position: absolute;
+    width: 48px;
+    height: 73px;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    background: linear-gradient(145deg,#ffd0e2,#ee72a1);
+    box-shadow: inset -3px -4px 8px #d54e8133;
+    transform: translate(-50%,-50%) rotate(var(--r)) translateY(-48px) scale(0);
+    animation: bloom 1.3s ease-out forwards;
+    animation-delay: var(--delay);
+}
+
+.center {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    background: radial-gradient(#fff4af,#ffbd43);
+    box-shadow: 0 0 18px #ffdc7c;
+    transform: translate(-50%,-50%) scale(0);
+    animation: pop .7s 1s forwards;
+    z-index: 3;
+}
+
+.stem {
+    position: absolute;
+    left: 80px;
+    top: 120px;
+    width: 9px;
+    height: 0;
+    border-radius: 10px;
+    background: linear-gradient(#8acb83,#438f57);
+    animation: grow 1.6s .4s forwards;
+}
+
+.leaf {
+    position: absolute;
+    width: 48px;
+    height: 25px;
+    top: 180px;
+    background: #78bb78;
+    border-radius: 100% 0 100% 0;
+    opacity: 0;
+    animation: leafGrow .8s 1.6s forwards;
+}
+
+.left { left: 35px; transform: rotate(20deg) scale(0); }
+.right { right: 30px; transform: rotate(70deg) scale(0); }
+
+/* SMALL FLOWERS */
+
+.small-flower {
+    position: absolute;
+    bottom: 28px;
+    font-size: 45px;
+    animation: smallSway 3s infinite alternate;
+    filter: drop-shadow(0 0 7px #ffb5d0);
+}
+
+.sf1 { left: 13%; animation-delay: .5s; }
+.sf2 { right: 12%; font-size: 37px; animation-delay: 1s; }
+.sf3 { left: 27%; font-size: 27px; animation-delay: 1.5s; }
+
+/* BUTTERFLIES */
+
+.butterfly {
+    position: fixed;
+    font-size: 28px;
+    z-index: 1;
+    pointer-events: none;
+    animation: fly 9s ease-in-out infinite alternate;
+}
+
+.b1 { top: 20%; left: 5%; }
+.b2 { top: 42%; right: 5%; animation-delay: 2s; }
+.b3 { top: 70%; left: 8%; animation-delay: 4s; }
+
+/* FIREFLIES */
+
+.firefly {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffe79a;
+    box-shadow: 0 0 12px 4px #ffe79a88;
+    pointer-events: none;
+    animation: firefly 4s ease-in-out infinite alternate;
+    z-index: 1;
+}
+
+/* TEXT */
+
+.instruction {
+    font-size: 12px;
+    opacity: .7;
+    animation: pulse 2s infinite;
+}
+
+.message {
+    font-family: 'Playfair Display',serif;
+    font-size: 23px;
+    margin-top: 18px;
+    line-height: 1.5;
+}
+
+.description {
+    font-size: 13px;
+    margin-top: 10px;
+    line-height: 1.9;
+}
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+button {
+    padding: 13px 21px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg,#fa91b9,#dc6395);
+    color: white;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 5px 15px #e98bab44;
+}
+
+button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px #e98bab77;
+}
+
+.secondary {
+    background: #ffffffaa;
+    color: #b84c79;
+}
+
+.night .secondary {
+    background: #ffffff22;
+    color: white;
+}
+
+.footer {
+    font-size: 11px;
+    margin-top: 30px;
+    opacity: .7;
+}
+
+/* ENVELOPE */
+
+.envelope-section {
+    margin-top: 35px;
+    width: 100%;
+}
+
+.envelope-section h2 {
+    font-family: 'Playfair Display',serif;
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.envelope {
+    position: relative;
+    width: 190px;
+    height: 125px;
+    background: #f2a1bc;
+    margin: 35px auto 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px #ad567a33;
+    transition: transform .3s;
+}
+
+.envelope:hover {
+    transform: translateY(-6px);
+}
+
+.envelope:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg,#ffd1df,#f18db2);
+    clip-path: polygon(0 0,50% 55%,100% 0);
+    z-index: 3;
+    transform-origin: top;
+    transition: transform .8s;
+}
+
+.envelope.open:before {
+    transform: rotateX(180deg);
+}
+
+.envelope:after {
+    content: "💌";
+    position: absolute;
+    font-size: 38px;
+    top: 42px;
+    left: 76px;
+    z-index: 4;
+}
+
+.envelope-label {
+    font-size: 12px;
+    opacity: .75;
+}
+
+/* LETTER MODAL */
+
+#letterModal {
+    position: fixed;
+    inset: 0;
+    background: #251326aa;
+    backdrop-filter: blur(9px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    z-index: 50;
+}
+
+.letter {
+    width: 100%;
+    max-width: 440px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 35px 27px;
+    border-radius: 20px;
+    color: #86506a;
+    background: linear-gradient(145deg,#fffaf4,#fff0f5);
+    box-shadow: 0 20px 70px #0004;
+    position: relative;
+    animation: letterOpen .8s cubic-bezier(.2,.8,.2,1);
+    text-align: left;
+}
+
+.letter h2 {
+    text-align: center;
+    font-family: 'Playfair Display',serif;
+    color: #b84c79;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.letter .date {
+    text-align: right;
+    font-size: 11px;
+    opacity: .65;
+    margin-bottom: 18px;
+}
+
+.letter p {
+    font-size: 14px;
+    line-height: 2.1;
+    margin-bottom: 15px;
+}
+
+.letter .signature {
+    text-align: right;
+    font-family: 'Playfair Display',serif;
+    font-style: italic;
+    color: #c45b83;
+    font-size: 17px;
+    margin-top: 22px;
+}
+
+.close {
+    display: block;
+    margin: 20px auto 0;
+}
+
+/* PETALS */
+
+.falling-petal {
+    position: fixed;
+    top: -30px;
+    pointer-events: none;
+    z-index: 10;
+    animation: fall linear forwards;
+}
+
+/* ANIMATIONS */
+
+@keyframes bloom {
+    to {
+        transform: translate(-50%,-50%)
+        rotate(var(--r)) translateY(-48px) scale(1);
+    }
+}
+
+@keyframes pop {
+    to { transform: translate(-50%,-50%) scale(1); }
+}
+
+@keyframes grow {
+    to { height: 140px; }
+}
+
+@keyframes leafGrow {
+    to { opacity: 1; transform: rotate(20deg) scale(1); }
+}
+
+@keyframes sway {
+    from { rotate: -3deg; }
+    to { rotate: 3deg; }
+}
+
+@keyframes smallSway {
+    from { transform: rotate(-8deg); }
+    to { transform: rotate(8deg); }
+}
+
+@keyframes fly {
+    0% { transform: translate(0,0) rotate(-15deg); }
+    50% { transform: translate(65px,-45px) rotate(15deg); }
+    100% { transform: translate(-25px,30px) rotate(-10deg); }
+}
+
+@keyframes firefly {
+    from { opacity: .2; transform: translate(0,0); }
+    to { opacity: 1; transform: translate(25px,-30px); }
+}
+
+@keyframes pulse {
+    50% { opacity: .35; }
+}
+
+@keyframes moonGlow {
+    to { box-shadow: 0 0 65px #ffe6a3cc; }
+}
+
+@keyframes fall {
+    to {
+        transform: translate(var(--drift),110vh) rotate(700deg);
+        opacity: 0;
+    }
+}
+
+@keyframes letterOpen {
+    from { opacity: 0; transform: translateY(40px) scale(.85); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media(max-width:450px) {
+    .garden { height: 315px; }
+    .buttons { gap: 9px; }
+    button { padding: 12px 15px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    *,*::before,*::after {
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+    }
+}
+
+/* POLISHED MINI GAME */
+.game-card {
+    width: 100%;
+    max-width: 510px;
+    margin: 34px auto 8px;
+    padding: 24px 20px 20px;
+    border: 1px solid #ffffffb8;
+    border-radius: 26px;
+    background: linear-gradient(145deg, #ffffffc9, #fff0f6d9);
+    box-shadow: 0 16px 45px #c96c9130, inset 0 1px 0 #fff;
+    backdrop-filter: blur(12px);
+}
+.night .game-card {
+    background: linear-gradient(145deg, #ffffff18, #f7c7e016);
+    border-color: #ffffff2c;
+    box-shadow: 0 16px 45px #0003;
+}
+.game-kicker {
+    color: #d16c96;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+.night .game-kicker { color: #ffc4df; }
+.game-card h2 {
+    font: 600 25px 'Playfair Display', serif;
+    margin-bottom: 7px;
+}
+.game-copy { font-size: 12px; line-height: 1.7; opacity: .82; }
+.memory-stats { display:flex; justify-content:center; gap:12px; margin:15px 0 12px; font-size:12px; }
+.memory-stats span { padding:8px 13px; border-radius:20px; background:#f9dce8; }
+.night .memory-stats span { background:#ffffff1b; }
+.memory-grid {
+    display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px;
+    max-width:340px; margin:0 auto;
+}
+.memory-tile {
+    aspect-ratio:1; border:1px solid #f0b3cb; border-radius:15px;
+    background:linear-gradient(145deg,#f7a9c6,#df6f9b); color:white;
+    box-shadow:0 5px 12px #c96c9130; font-size:25px; font-weight:700;
+    cursor:pointer; transition:transform .2s, background .2s;
+    display:grid; place-items:center; padding:0;
+}
+.memory-tile:hover { transform:translateY(-2px); }
+.memory-tile.revealed, .memory-tile.matched {
+    background:linear-gradient(145deg,#fffafd,#ffe2ed); color:#b84c79;
+}
+.night .memory-tile.revealed, .night .memory-tile.matched {
+    background:linear-gradient(145deg,#68516f,#493b60); color:#ffe0ed;
+}
+.memory-tile.matched { border-color:#8fc99b; opacity:.8; cursor:default; }
+.memory-tile:disabled { cursor:default; }
+@media(max-width:450px) { .memory-grid { gap:7px; } .memory-tile { border-radius:12px; } }
+
+</style>
+</head>
+
+<body>
+
+<div class="butterfly b1">🦋</div>
+<div class="butterfly b2">🦋</div>
+<div class="butterfly b3">🦋</div>
+
+<main class="container">
+
+    <p class="top">Tujhyasathi ek chotasa surprise ✨</p>
+
+    <h1>Hey, Cutie! 🌸</h1>
+
+    <p class="subtitle">
+        Kashi ahes?
+        Tujhyasathi kahitari chotasa banavla aahe.
+        Aaramat explore kar! 😊
+    </p>
+
+    <div class="garden">
+
+        <div class="moon"></div>
+
+        <div class="small-flower sf1">🌼</div>
+        <div class="small-flower sf2">🌷</div>
+        <div class="small-flower sf3">🌸</div>
+
+        <div class="flower" id="flower">
+
+            <div class="head">
+                <div class="petals" id="petals"></div>
+                <div class="center"></div>
+            </div>
+
+            <div class="stem"></div>
+            <div class="leaf left"></div>
+            <div class="leaf right"></div>
+
+        </div>
+
+        <div class="ground"></div>
+    </div>
+
+    <p class="instruction">
+        Psst... flower var click kar na! 🌸
+    </p>
+
+    <h2 class="message" id="message">
+        Fakt tujhya chehryavar smile yavi mhanun. 💗
+    </h2>
+
+    <p class="description">
+        Tujha divas chhan javo!
+        Hamesha ashich smile karat raha. 🌷
+    </p>
+
+    <div class="buttons">
+
+        <button onclick="bloomFlower()">
+            🌸 Ajun bloom kar
+        </button>
+
+        <button onclick="rainPetals()">
+            🌧️ Petal magic
+        </button>
+
+        <button class="secondary" onclick="changeTheme()">
+            🌙 Change the vibe
+        </button>
+
+    </div>
+
+
+    <section class="game-card memory-card" aria-label="Memory match game">
+        <div class="game-kicker">One more little challenge 🧠</div>
+        <h2>Find the matching pairs 💞</h2>
+        <p class="game-copy">Flip the cards and find all 4 matching pairs. Can you do it in 8 moves?</p>
+        <div class="memory-stats">
+            <span>✨ Moves: <b id="memoryMoves">0</b></span>
+            <span>💗 Pairs: <b id="memoryPairs">0</b>/4</span>
+        </div>
+        <div class="memory-grid" id="memoryGrid" aria-label="Memory cards"></div>
+        <div class="game-actions">
+            <button type="button" id="memoryStart" onclick="startMemoryGame()">Start game 🎮</button>
+            <button type="button" class="secondary" onclick="startMemoryGame()">Shuffle ↻</button>
+        </div>
+        <p class="game-result" id="memoryResult" aria-live="polite"></p>
+    </section>
+
+    <!-- LETTER ENVELOPE -->
+
+    <div class="envelope-section">
+
+        <h2>Ek chotasa patra... 💌</h2>
+
+        <p style="font-size:13px">
+            Tujhyasathi kahitari lihila aahe.
+        </p>
+
+        <div class="envelope" id="envelope" onclick="openLetter()"></div>
+
+        <p class="envelope-label">
+            Envelope var click karun bagh 🙈
+        </p>
+
+    </div>
+
+    <p class="footer">
+        Thodya creativity sobat, fakt tujhya sathi ✨
+    </p>
+
+</main>
+
+<!-- LETTER -->
+
+<div id="letterModal">
+
+    <div class="letter">
+
+        <h2>Ek chotasa patra 🌷</h2>
+
+        <p class="date">With a little smile 💗</p>
+
+        <p>Heyy!</p>
+
+        <p>
+            Kharatar he sagla banvaycha kahi special reason navhta.
+            Fakt vatla ki tujhya sathi kahitari vegla karava.
+        </p>
+
+        <p>
+            Aplya gappa hotat na, tevha kadhi kadhi
+            agdi normal divas pan chhan vatto.
+            Tujhyashi bolayla ek veglich maja yete. 😊
+        </p>
+
+        <p>
+            Tu kashi ahes, kay kartes, divas kasa gela...
+            ya chotya-chotya goshti pan interesting vatatat.
+        </p>
+
+        <p>
+            Mhanun ha chotasa flower garden!
+            Tujhya chehryavar ek smile yavi,
+            evdhach vichar hota. 🌸
+        </p>
+
+        <p>
+            Life madhe khup busy rahu nakos,
+            swatachi kalji ghe, khup hasat raha
+            ani ashich cute raha! 😂
+        </p>
+
+        <p>
+            Bas, evdhach lihaycha hota.
+            Khup motha letter nahi, pan manapasun banavla aahe.
+        </p>
+
+        <p class="signature">
+            Take care! 🌷<br>
+            A little well-wisher ❤️
+        </p>
+
+        <button class="close" onclick="closeLetter()">
+            Parat garden madhe jauya 🌸
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+// CREATE MAIN FLOWER
+const petals = document.getElementById("petals");
+
+for(let i=0; i<8; i++) {
+    const petal = document.createElement("span");
+
+    petal.className = "petal";
+    petal.style.setProperty("--r", `${i*45}deg`);
+    petal.style.setProperty("--delay", `${i*.1}s`);
+
+    petals.appendChild(petal);
+}
+
+// FIREFlIES
+for(let i=0; i<18; i++) {
+    const firefly = document.createElement("div");
+
+    firefly.className = "firefly";
+    firefly.style.left = Math.random()*100+"vw";
+    firefly.style.top = Math.random()*100+"vh";
+    firefly.style.animationDelay = Math.random()*4+"s";
+
+    document.body.appendChild(firefly);
+}
+
+// FLOWER MESSAGES
+const messages = [
+    "Fakt tujhya chehryavar smile yavi mhanun. 💗",
+    "Aajcha divas tujhya sarkhach sundar javo! 🌸",
+    "Tujhi smile asich kayam rahu de! 😊",
+    "Thodasa happiness tujhya sathi! ✨",
+    "Hamesha ashich cute raha! 🌷"
+];
+
+let messageIndex = 0;
+
+// PARTICLES
+function createParticles() {
+
+    const emojis = ["💗","✨","🌸","💕","⭐","🦋"];
+
+    for(let i=0; i<22; i++) {
+        const star = document.createElement("span");
+
+        star.className = "falling-petal";
+        star.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+
+        star.style.left = Math.random()*100+"vw";
+        star.style.fontSize = (15+Math.random()*20)+"px";
+        star.style.animationDuration = (2+Math.random()*2)+"s";
+        star.style.setProperty("--drift", (Math.random()*200-100)+"px");
+
+        document.body.appendChild(star);
+
+        setTimeout(() => star.remove(),4500);
+    }
+}
+
+// BLOOM FLOWER
+function bloomFlower() {
+
+    messageIndex = (messageIndex+1)%messages.length;
+
+    document.getElementById("message").textContent =
+        messages[messageIndex];
+
+    const flower = document.getElementById("flower");
+
+    flower.animate(
+        [
+            { transform:"translateX(-50%) scale(1)" },
+            { transform:"translateX(-50%) scale(1.2)" },
+            { transform:"translateX(-50%) scale(1)" }
+        ],
+        { duration:800, easing:"ease-in-out" }
+    );
+
+    createParticles();
+}
+
+// CLICK FLOWER
+document.getElementById("flower").addEventListener("click",bloomFlower);
+
+// PETAL RAIN
+function rainPetals() {
+    createParticles();
+    setTimeout(createParticles,500);
+    setTimeout(createParticles,1000);
+}
+
+// DAY / NIGHT
+function changeTheme() {
+
+    document.body.classList.toggle("night");
+
+    const button = document.querySelector(".secondary");
+
+    button.textContent =
+        document.body.classList.contains("night")
+        ? "☀️ Back to sunshine"
+        : "🌙 Change the vibe";
+
+    createParticles();
+}
+
+// OPEN LETTER
+function openLetter() {
+
+    document.getElementById("envelope").classList.add("open");
+
+    setTimeout(() => {
+        document.getElementById("letterModal").style.display="flex";
+        createParticles();
+    },350);
+}
+
+// CLOSE LETTER
+function closeLetter() {
+
+    document.getElementById("letterModal").style.display="none";
+
+    document.getElementById("envelope").classList.remove("open");
+}
+
+document.getElementById("letterModal").addEventListener("click",(e) => {
+    if(e.target.id==="letterModal") closeLetter();
+});
+
+document.addEventListener("keydown",(e) => {
+    if(e.key==="Escape") closeLetter();
+});
+
+
+// MINI GAME 2: memory match
+const memorySymbols = ["🌸","🦋","💗","🌷"];
+let memoryDeck = [];
+let memoryFirst = null;
+let memoryLock = false;
+let memoryMoves = 0;
+let memoryPairs = 0;
+let memoryStarted = false;
+
+function startMemoryGame() {
+    memoryDeck = [...memorySymbols, ...memorySymbols]
+        .map((symbol, index) => ({ symbol, id: index }))
+        .sort(() => Math.random() - 0.5);
+    memoryFirst = null;
+    memoryLock = false;
+    memoryMoves = 0;
+    memoryPairs = 0;
+    memoryStarted = true;
+    document.getElementById("memoryMoves").textContent = "0";
+    document.getElementById("memoryPairs").textContent = "0";
+    document.getElementById("memoryResult").textContent = "";
+    renderMemoryCards();
+}
+
+function renderMemoryCards() {
+    const grid = document.getElementById("memoryGrid");
+    grid.innerHTML = "";
+    memoryDeck.forEach((card, index) => {
+        const tile = document.createElement("button");
+        tile.type = "button";
+        tile.className = "memory-tile";
+        tile.textContent = card.matched || card.revealed ? card.symbol : "?";
+        if (card.revealed) tile.classList.add("revealed");
+        if (card.matched) tile.classList.add("matched");
+        tile.disabled = !!card.matched || !!card.revealed || memoryLock || !memoryStarted;
+        tile.setAttribute("aria-label", card.matched || card.revealed ? card.symbol : "Hidden card");
+        tile.addEventListener("click", () => flipMemoryCard(index));
+        grid.appendChild(tile);
+    });
+}
+
+function flipMemoryCard(index) {
+    if (!memoryStarted || memoryLock || memoryDeck[index].matched || memoryDeck[index].revealed) return;
+    memoryDeck[index].revealed = true;
+    renderMemoryCards();
+
+    if (memoryFirst === null) {
+        memoryFirst = index;
+        return;
+    }
+
+    memoryMoves++;
+    document.getElementById("memoryMoves").textContent = memoryMoves;
+    const firstIndex = memoryFirst;
+    memoryFirst = null;
+
+    if (memoryDeck[firstIndex].symbol === memoryDeck[index].symbol) {
+        memoryDeck[firstIndex].matched = true;
+        memoryDeck[index].matched = true;
+        memoryPairs++;
+        document.getElementById("memoryPairs").textContent = memoryPairs;
+        renderMemoryCards();
+
+        if (memoryPairs === 4) {
+            memoryStarted = false;
+            document.getElementById("memoryResult").textContent =
+                `Perfect match! You found all the pairs in ${memoryMoves} moves! 🌸💗`;
+            createParticles();
+        }
+    } else {
+        memoryLock = true;
+        setTimeout(() => {
+            memoryDeck[firstIndex].revealed = false;
+            memoryDeck[index].revealed = false;
+            memoryLock = false;
+            renderMemoryCards();
+        }, 750);
+    }
+}
+
+// Show a ready-to-play board immediately.
+startMemoryGame();
+
+</script>
+
+</body>
+</html>
